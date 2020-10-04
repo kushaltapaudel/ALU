@@ -1,0 +1,14 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Module Name:full_adder
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module full_adder (Sum, Cin, Cout, A, B);
+	input A, B, Cin; 
+	output Cout, Sum;
+
+	assign Sum = A ^ B ^ Cin;
+	assign Cout = {B & Cin} | {A & Cin} | {A & B};
+         
+endmodule
