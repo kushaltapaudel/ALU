@@ -4,39 +4,39 @@
 // By Kushalta Paudel
 //////////////////////////////////////////////////////////////////////////////////
 
-module synchronizer (
-    input clk_in, rst, signal_in,
-    output reg fall,
-	output reg rise,
-	output reg signal_out
+module edge_to_pulse (
+    input clk_in,
+    input [3:0] sw, pb,
+	output reg signal_run
     );   
 
-	reg signal_d;
+	reg signal_d, Out, fall;
 	
 // Initialization
 initial
     begin
         signal_d = 1'b0;
-		signal_out = 1'b0;
-        rise = 1'b0;
+		Out = 1'b0;
+		signal_run = 1'b0;
         fall = 1'b0;
     end
 
 	
 always @(posedge clk_in)
-	if(rst)
+	if(pb[0])
 		begin
-			signal_out <= 1'b0;
+			Out <= 1'b0;
 			signal_d <= 1'b0;
-			rise <= 1'b0;
+			signal_run <= 1'b0;
 			fall <= 1'b0;
 		end
 	else
 		begin
-			signal_d <= signal_in;
-			signal_out <= signal_d;
-			fall = signal_out & (!signal_d);
-		    rise = (!signal_out) & signal_d;
+		  
+			signal_d <= sw[0] | sw[1] | sw[2] | sw[3] | pb[1] | pb[2] | pb[3];
+			Out <= signal_d;
+			fall = Out & (!signal_d);
+		    signal_run = (!Out) & signal_d;
 		end	
 
 endmodule  

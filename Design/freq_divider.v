@@ -4,27 +4,28 @@
 // By Kushalta Paudel
 //////////////////////////////////////////////////////////////////////////////////
 
-module freq_divider(
+module freq_divider #(parameter Hz=50000) (
 	input clk_in, 
 	input rst,
-	output reg clk_50kHz
+	output reg OutClk
 	);
 	integer counter;
-	
-	//one cycle for 5 hz : (125000000/50000)/2 = 1250
-	parameter oneCycle = 1250;
+	//when 50000, once cycle = 1250
+	//for simulation 
+	parameter oneCycle = (125000000 / Hz) / 2;
+	//parameter oneCycle = (125000000 / Hz) / 2;
 	
 initial
 	begin
 		counter <= 0;
-		clk_50kHz = 1'b0;
+		OutClk = 1'b0;
 	end
 
 always@(posedge clk_in or posedge rst) begin
 	if (rst)
 		begin
 			counter <= 0;
-			clk_50kHz <= 1'b0;
+			OutClk <= 1'b0;
 		end
 	
 	else 
@@ -33,7 +34,7 @@ always@(posedge clk_in or posedge rst) begin
             if (counter >= oneCycle)
                 begin
                     counter <= 0;
-                    clk_50kHz <= ~clk_50kHz;
+                    OutClk <= ~OutClk;
                 end
         end  
 end

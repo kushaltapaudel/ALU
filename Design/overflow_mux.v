@@ -18,7 +18,7 @@ module overflow_mux (Out, Sel, AddIn, SubIn);
 		case (Sel) 
 			3'b000 : Out = AddIn; 
 			3'b001 : Out = SubIn; 
-			default : Out = 1'bx; 
+			default : Out = 1'b0; 
 			//If input is undefined then output is undefined 
 		endcase 
 	end  
